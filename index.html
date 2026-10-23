@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Week Project - Settimana III</title>
+  <title>Week Project — Settimana III</title>
   <link rel="stylesheet" href="style.css">
   <script type="module" src="script.js"></script>
 </head>
@@ -50,7 +50,53 @@
       </form>
     </section>
 
+    <section class="controlli">
+      <input type="search" id="ricerca" placeholder="Cerca per titolo o creatore" aria-label="Cerca una serie">
+      <select id="filtro" aria-label="Filtra per stato">
+        <option value="tutti">Tutte</option>
+        <option value="visto">Solo visti</option>
+        <option value="da-vedere">Solo da vedere</option>
+      </select>
+    </section>
+
+    <section class="statistiche">
+      <div class="contatori">
+        <div class="contatore">
+          <span class="numero" id="num-totale">0</span>
+          <span class="etichetta-stat">Totale</span>
+        </div>
+        <div class="contatore">
+          <span class="numero" id="num-visti">0</span>
+          <span class="etichetta-stat">Visti</span>
+        </div>
+        <div class="contatore">
+          <span class="numero" id="num-da-vedere">0</span>
+          <span class="etichetta-stat">Da vedere</span>
+        </div>
+      </div>
+      <div class="barra-area">
+        <div class="barra">
+          <div class="barra-riempimento" id="barra-visti"></div>
+        </div>
+        <p id="testo-percentuale">Percentuale visti: 0%</p>
+      </div>
+    </section>
+
+    <section class="lista">
+      <h2>La tua collezione</h2>
+      <!-- Container che render() ricostruisce a ogni cambio di stato -->
+      <ul id="elenco"></ul>
+      <p id="vuoto">Nessuna serie corrisponde ai criteri.</p>
+    </section>
+
+    <div id="notifica"></div>
+
   </main>
+
+  <footer>
+    <p>Creato da Kledjan — 2026</p>
+  </footer>
+
 
 </body>
 

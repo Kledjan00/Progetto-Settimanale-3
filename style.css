@@ -140,3 +140,98 @@ select:focus {
   font-size: 14px;
   margin-top: 10px;
 }
+/* ------ LISTA -------- */
+ul {
+  list-style: none;
+}
+.riga {
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: rgba(128, 128, 128, 0.1);
+  border-left: 4px solid #fca311;
+  border-radius: 6px;
+}
+.riga.visto {
+  border-left-color: #2a9d5c;
+}
+.col-info {
+  width: 26%;
+  padding-right: 10px;
+}
+.col-stelle {
+  width: 22%;
+}
+.col-azioni {
+  width: 48%;
+  text-align: right;
+}
+.titolo,
+.dettagli {
+  display: block;
+}
+.dettagli {
+  font-size: 12px;
+}
+/* nascosto di default, lo mostra render() quando non ci sono serie */
+#vuoto {
+  display: none;
+  text-align: center;
+  padding: 18px 0;
+}
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 12px;
+  border-radius: 12px;
+  background: #fca311;
+  color: #14213d;
+}
+.riga.visto .badge {
+  background: #2a9d5c;
+  color: #fff;
+}
+.azione {
+  margin-left: 6px;
+  padding: 5px 10px;
+  font-size: 13px;
+  color: inherit;
+  background: rgba(128, 128, 128, 0.2);
+  border-radius: 5px;
+}
+.azione:hover {
+  background: rgba(128, 128, 128, 0.4);
+}
+.azione.elimina:hover {
+  background: #c0392b;
+  color: #fff;
+}
+.stella {
+  padding: 0 2px;
+  font-size: 24px;
+  line-height: 1;
+  color: #b4bccb;
+}
+.stella.piena {
+  color: #fca311;
+}
+.stella:hover {
+  color: #e08e00;
+}
+/* ------ FOOTER -------- */
+footer {
+  text-align: center;
+  font-size: 13px;
+  padding: 10px 20px 30px;
+}
+/* ----Colonne affiancate----- */
+.titoli,
+#tema,
+.col-info,
+.col-stelle,
+.col-azioni {
+  display: inline-block;
+  vertical-align: middle;
+}
+.titoli {
+  width: calc(100% - 130px);
+}
