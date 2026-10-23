@@ -240,3 +240,53 @@ footer {
   padding: 5px 8px;
   margin-bottom: 3px;
 }
+/* ---------- CONTROLLI, ricerca e filtro ---------- */
+.controlli input {
+  width: 64%;
+  margin-right: 2%;
+}
+.controlli select {
+  width: 32%;
+}
+/* ------ STATISTICHE -------- */
+.contatori,
+.barra-area {
+  display: inline-block;
+  vertical-align: middle;
+}
+.contatori {
+  width: 260px;
+}
+.contatore {
+  display: inline-block;
+  width: 80px;
+  text-align: center;
+}
+.numero {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  color: #e08e00;
+  line-height: 1.2;
+}
+.etichetta-stat {
+  display: block;
+  font-size: 12px;
+}
+.barra-area {
+  width: calc(100% - 270px);
+}
+.barra {
+  height: 12px;
+  background: rgba(128, 128, 128, 0.25);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.barra-riempimento {
+  height: 100%;
+  background: #fca311;
+}
+#testo-percentuale {
+  font-size: 12px;
+  margin-top: 6px;
+}

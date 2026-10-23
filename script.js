@@ -20,6 +20,15 @@ const inputAnno = document.querySelector("#anno");
 const selectStato = document.querySelector("#stato");
 const paragrafoErrore = document.querySelector("#errore");
 
+const inputRicerca = document.querySelector("#ricerca");
+const selectFiltro = document.querySelector("#filtro");
+
+const numTotale = document.querySelector("#num-totale");
+const numVisti = document.querySelector("#num-visti");
+const numDaVedere = document.querySelector("#num-da-vedere");
+const barraVisti = document.querySelector("#barra-visti");
+const testoPercentuale = document.querySelector("#testo-percentuale");
+
 const elenco = document.querySelector("#elenco");
 const messaggioVuoto = document.querySelector("#vuoto");
 
@@ -70,7 +79,8 @@ function creaRiga(serie) {
 
 /* RENDER()
    Una sola funzione che ridipinge la lista. A ogni chiamata:
-   parte dall'array completo, ricrea l'HTML delle righe con innerHTML e 
+   parte dall'array completo, filtra per stato e ricerca
+   ricrea l'HTML delle righe con innerHTML e 
    mostra o nasconde il messaggio "nessuna serie" e, se sto modificando un titolo,
    attiva gli eventi del suo input */
 
@@ -79,18 +89,48 @@ function render() {
   // 1) parto dall'array completo
   let visibili = listaSerie;
 
-  // 2) ricreo tutte le righe in una mossa sola
+  // 2) filtro per stato
+  if (filtro !== "tutti") {
+    visibili = visibili.filter(serie => serie.stato === filtro);
+  }
+
+  // 3) ricerca live (titolo o creatore)
+  if (ricerca !== "") {
+    visibili = visibili.filter(serie => {
+      const titolo = serie.titolo.toLowerCase();
+      const creatore = serie.creatore.toLowerCase();
+      return titolo.includes(ricerca) || creatore.includes(ricerca);
+    });
+  }
+
+  // 4) ricreo tutte le righe in una mossa sola
   elenco.innerHTML = visibili.map(serie => creaRiga(serie)).join("");
 
-  // 3) se non c'e' nessuna serie mostro il messaggio gia in html
+  // 5) se non c'è nessuna serie mostro il messaggio gia in html
   if (visibili.length === 0) {
     messaggioVuoto.style.display = "block";
   } else {
     messaggioVuoto.style.display = "none";
   }
 
-  // 4) se c'e' un titolo in modifica, attivo gli eventi del suo input
+  // 6) se c'è un titolo in modifica, attivo gli eventi del suo input
   attivaModifica();
+
+  // STATISTICHE 
+  const totale = listaSerie.length;
+  const visti = listaSerie.filter(serie => serie.stato === "visto").length;
+  const daVedere = totale - visti;
+
+  let percentuale = 0;
+  if (totale > 0) {
+    percentuale = Math.round(visti / totale * 100);
+  }
+
+  numTotale.textContent = totale;
+  numVisti.textContent = visti;
+  numDaVedere.textContent = daVedere;
+  barraVisti.style.width = percentuale + "%";
+  testoPercentuale.textContent = `Percentuale visti: ${percentuale}%`;
 }
 
 
@@ -143,7 +183,7 @@ form.addEventListener("submit", (event) => {
 
 
 /* INTERAZIONI BASE — eliminare, modificare il titolo, cambiare stato, stelle
-   Un solo listener sul container (event delegation).
+   Un solo listener sul container.
    Ogni bottone ha data-azione, ogni <li> ha data-id.
 */
 
@@ -223,6 +263,19 @@ elenco.addEventListener("click", (event) => {
     }
     render();
   }
+});
+
+
+/* RICERCA E FILTRO */
+
+inputRicerca.addEventListener("input", () => {
+  ricerca = inputRicerca.value.toLowerCase();
+  render();
+});
+
+selectFiltro.addEventListener("change", () => {
+  filtro = selectFiltro.value;
+  render();
 });
 
 
