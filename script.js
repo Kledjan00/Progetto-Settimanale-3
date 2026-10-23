@@ -1,16 +1,17 @@
 // Lista di array
 let listaSerie = [
   { id: 1, titolo: "Breaking Bad", creatore: "Vince Gilligan", anno: 2008, stato: "visto", voto: 5 },
-  { id: 2, titolo: "Dark", creatore: "Baran bo Odar", anno: 2017, stato: "visto", voto: 4 },
+  { id: 2, titolo: "Dark", creatore: "Baran bo Odar", anno: 2017, stato: "visto", voto: 2 },
   { id: 3, titolo: "The Office", creatore: "Greg Daniels", anno: 2005, stato: "da-vedere", voto: 0 },
-  { id: 4, titolo: "Stranger Things", creatore: "Matt e Ross Duffer", anno: 2016, stato: "da-vedere", voto: 0 },
-  { id: 5, titolo: "Sherlock", creatore: "Steven Moffat", anno: 2010, stato: "visto", voto: 3 },
-  { id: 6, titolo: "Brooklyn Nine-Nine", creatore: "Dan Goor", anno: 2013, stato: "da-vedere", voto: 0 }
+  { id: 4, titolo: "Stranger Things", creatore: "Matt e Ross Duffer", anno: 2016, stato: "visto", voto: 5 },
+  { id: 5, titolo: "Sherlock", creatore: "Steven Moffat", anno: 2010, stato: "visto", voto: 4 },
+  { id: 6, titolo: "Brooklyn Nine-Nine", creatore: "Dan Goor", anno: 2013, stato: "da-vedere", voto: 3 }
 ];
 
 let filtro = "tutti";
 let ricerca = "";
 let idInModifica = null;
+let timerNotifica;
 
 /* ELEMENTI DEL DOM */
 const form = document.querySelector("#form-serie");
@@ -31,6 +32,26 @@ const testoPercentuale = document.querySelector("#testo-percentuale");
 
 const elenco = document.querySelector("#elenco");
 const messaggioVuoto = document.querySelector("#vuoto");
+const boxNotifica = document.querySelector("#notifica");
+const bottoneTema = document.querySelector("#tema");
+
+
+/* NOTIFICHE TEMPORANEE
+   Mostra il box per 3 secondi. tipo = "successo" di verde oppure "errore" di rosso
+*/
+
+function notifica(testo, tipo = "successo") {
+  boxNotifica.textContent = testo;
+  boxNotifica.classList.remove("successo", "errore");
+  boxNotifica.classList.add(tipo);
+  boxNotifica.style.display = "block";
+
+  // se arriva una nuova notifica, fermo il timer della precedente
+  clearTimeout(timerNotifica);
+  timerNotifica = setTimeout(() => {
+    boxNotifica.style.display = "none";
+  }, 3000);
+}
 
 // le 5 stelle
 function creaStelle(voto) {
@@ -80,7 +101,7 @@ function creaRiga(serie) {
 /* RENDER()
    Una sola funzione che ridipinge la lista. A ogni chiamata:
    parte dall'array completo, filtra per stato e ricerca
-   ricrea l'HTML delle righe con innerHTML e 
+   ricrea l'HTML delle righe con innerHTML e
    mostra o nasconde il messaggio "nessuna serie" e, se sto modificando un titolo,
    attiva gli eventi del suo input */
 
@@ -116,7 +137,7 @@ function render() {
   // 6) se c'è un titolo in modifica, attivo gli eventi del suo input
   attivaModifica();
 
-  // STATISTICHE 
+  // STATISTICHE
   const totale = listaSerie.length;
   const visti = listaSerie.filter(serie => serie.stato === "visto").length;
   const daVedere = totale - visti;
@@ -178,6 +199,7 @@ form.addEventListener("submit", (event) => {
   listaSerie.push(nuova);
   form.reset();
   paragrafoErrore.textContent = "";
+  notifica(`"${titolo}" aggiunta alla lista`);
   render();
 });
 
@@ -193,12 +215,14 @@ function salvaModifica(id, testo) {
   idInModifica = null;
 
   if (nuovoTitolo === "") {
+    notifica("Il titolo non può essere vuoto", "errore");
     render();
     return;
   }
 
   const trovata = listaSerie.find(serie => serie.id === id);
   trovata.titolo = nuovoTitolo;
+  notifica("Titolo aggiornato");
   render();
 }
 
@@ -240,6 +264,7 @@ elenco.addEventListener("click", (event) => {
 
   if (azione === "elimina") {
     listaSerie = listaSerie.filter(serie => serie.id !== id);
+    notifica(`"${trovata.titolo}" eliminata`, "errore");
     render();
   } else if (azione === "stato") {
     if (trovata.stato === "visto") {
@@ -247,6 +272,7 @@ elenco.addEventListener("click", (event) => {
     } else {
       trovata.stato = "visto";
     }
+    notifica(`"${trovata.titolo}" aggiornata`);
     render();
   } else if (azione === "modifica") {
     idInModifica = id;
@@ -258,8 +284,10 @@ elenco.addEventListener("click", (event) => {
     // se clicco sulla stella gia' scelta, tolgo il voto
     if (trovata.voto === voto) {
       trovata.voto = 0;
+      notifica("Voto rimosso");
     } else {
       trovata.voto = voto;
+      notifica(`Voto: ${voto} su 5`);
     }
     render();
   }
@@ -276,6 +304,22 @@ inputRicerca.addEventListener("input", () => {
 selectFiltro.addEventListener("change", () => {
   filtro = selectFiltro.value;
   render();
+});
+
+
+/* TEMA CHIARO/SCURO
+   Il button aggiunge/toglie la classe "dark" al body
+   e cambia il testo del button.
+*/
+
+bottoneTema.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  if (document.body.classList.contains("dark")) {
+    bottoneTema.textContent = "Tema chiaro";
+  } else {
+    bottoneTema.textContent = "Tema scuro";
+  }
 });
 
 

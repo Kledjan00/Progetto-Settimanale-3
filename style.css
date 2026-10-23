@@ -290,3 +290,54 @@ footer {
   font-size: 12px;
   margin-top: 6px;
 }
+/* ------- NOTIFICA -------- */
+#notifica {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+#notifica.successo {
+  background: #2a9d5c;
+}
+#notifica.errore {
+  background: #c0392b;
+}
+/* ------- TEMA SCURO -------- */
+body.dark {
+  color: #e6edf3;
+  background: #0d1117;
+}
+body.dark main section {
+  background: #161b22;
+}
+body.dark input,
+body.dark select {
+  color: #e6edf3;
+  background: #0d1117;
+}
+/* ---------- SCHERMI PICCOLI ---------- */
+@media (max-width: 700px) {
+  .campo,
+  .controlli input,
+  .controlli select,
+  .contatori,
+  .barra-area,
+  .col-info,
+  .col-stelle,
+  .col-azioni {
+    width: 100%;
+    text-align: left;
+    padding-right: 0;
+  }
+  .controlli input,
+  .controlli select {
+    margin: 0 0 8px 0;
+  }
+  .barra-area {
+    margin-top: 14px;
+  }
+}
