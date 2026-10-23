@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week Project - Settimana III</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="script.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <div class="contenuto-header">
+      <div class="titoli">
+        <h1>Le mie Serie TV</h1>
+        <p>Segna le serie che hai visto e quelle che vuoi vedere.</p>
+      </div>
+      <button type="button" id="tema">Tema scuro</button>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="form">
+      <h2>Aggiungi una serie</h2>
+      <form id="form-serie" novalidate>
+        <div class="campo campo-titolo">
+          <label for="titolo">Titolo</label>
+          <input type="text" id="titolo" placeholder="Es. Dark">
+        </div>
+        <div class="campo campo-creatore">
+          <label for="creatore">Creatore</label>
+          <input type="text" id="creatore" placeholder="Es. Baran bo Odar">
+        </div>
+        <div class="campo campo-anno">
+          <label for="anno">Anno</label>
+          <input type="number" id="anno" placeholder="2017">
+        </div>
+        <div class="campo campo-stato">
+          <label for="stato">Stato</label>
+          <select id="stato">
+            <option value="da-vedere">Da vedere</option>
+            <option value="visto">Visto</option>
+          </select>
+        </div>
+        <button type="submit" id="aggiungi">Aggiungi</button>
+        <p id="errore"></p>
+      </form>
+    </section>
+
+  </main>
+
+</body>
+
+</html>
