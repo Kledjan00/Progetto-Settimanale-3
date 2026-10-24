@@ -10,6 +10,7 @@ let listaSerie = [
 
 let filtro = "tutti";
 let ricerca = "";
+let ordine = "anno-crescente";
 let idInModifica = null;
 let timerNotifica;
 
@@ -23,6 +24,7 @@ const paragrafoErrore = document.querySelector("#errore");
 
 const inputRicerca = document.querySelector("#ricerca");
 const selectFiltro = document.querySelector("#filtro");
+const selectOrdine = document.querySelector("#ordina");
 
 const numTotale = document.querySelector("#num-totale");
 const numVisti = document.querySelector("#num-visti");
@@ -100,7 +102,7 @@ function creaRiga(serie) {
 
 /* RENDER()
    Una sola funzione che ridipinge la lista. A ogni chiamata:
-   parte dall'array completo, filtra per stato e ricerca
+   parte dall'array completo, filtra per stato e ricerca, ordina per anno
    ricrea l'HTML delle righe con innerHTML e
    mostra o nasconde il messaggio "nessuna serie" e, se sto modificando un titolo,
    attiva gli eventi del suo input */
@@ -124,17 +126,26 @@ function render() {
     });
   }
 
-  // 4) ricreo tutte le righe in una mossa sola
+  // 4) ordino per anno (copio l'array con lo spread cosi non cambio listaSerie)
+  visibili = [...visibili].sort((a, b) => {
+    if (ordine === "anno-crescente") {
+      return a.anno - b.anno;
+    } else {
+      return b.anno - a.anno;
+    }
+  });
+
+  // 5) ricreo tutte le righe in una mossa sola
   elenco.innerHTML = visibili.map(serie => creaRiga(serie)).join("");
 
-  // 5) se non c'è nessuna serie mostro il messaggio gia in html
+  // 6) se non c'è nessuna serie mostro il messaggio gia in html
   if (visibili.length === 0) {
     messaggioVuoto.style.display = "block";
   } else {
     messaggioVuoto.style.display = "none";
   }
 
-  // 6) se c'è un titolo in modifica, attivo gli eventi del suo input
+  // 7) se c'è un titolo in modifica, attivo gli eventi del suo input
   attivaModifica();
 
   // STATISTICHE
@@ -294,7 +305,7 @@ elenco.addEventListener("click", (event) => {
 });
 
 
-/* RICERCA E FILTRO */
+/* RICERCA, FILTRO E ORDINAMENTO */
 
 inputRicerca.addEventListener("input", () => {
   ricerca = inputRicerca.value.toLowerCase();
@@ -303,6 +314,11 @@ inputRicerca.addEventListener("input", () => {
 
 selectFiltro.addEventListener("change", () => {
   filtro = selectFiltro.value;
+  render();
+});
+
+selectOrdine.addEventListener("change", () => {
+  ordine = selectOrdine.value;
   render();
 });
 

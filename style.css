@@ -240,13 +240,18 @@ footer {
   padding: 5px 8px;
   margin-bottom: 3px;
 }
-/* ---------- CONTROLLI, ricerca e filtro ---------- */
+/* ------ CONTROLLI, ricerca, filtro e ordine ------- */
 .controlli input {
-  width: 64%;
+  width: 46%;
   margin-right: 2%;
 }
 .controlli select {
-  width: 32%;
+  width: 24%;
+  margin-right: 2%;
+}
+/* l'ultimo select non ha margine a destra */
+#ordina {
+  margin-right: 0;
 }
 /* ------ STATISTICHE -------- */
 .contatori,
